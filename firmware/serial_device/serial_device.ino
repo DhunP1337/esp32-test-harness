@@ -7,9 +7,9 @@
 const char* FW_VERSION = "1.0.1";
 
 // ---- Change these to match the pins you used ----
-const int LED_PIN    = 2;   // LED (through a 220 ohm resistor to GND)
-const int BUTTON_PIN = 13;  // Push button (other leg to GND)
-const int POT_PIN    = 1;   // Potentiometer middle pin (must be an ADC pin)
+const int LED_PIN    = 21;  // External LED (GPIO21 -> 220 ohm -> LED -> GND)
+const int BUTTON_PIN = 14;  // Push button (other leg to GND). Avoid 4-18: camera pins
+const int POT_PIN    = 1;   // Potentiometer middle pin (ADC1 channel 0)
 // -------------------------------------------------
 
 const size_t MAX_CMD_LEN = 128;

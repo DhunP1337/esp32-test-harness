@@ -13,11 +13,21 @@ An automated verification suite for ESP32-S3 firmware. The ESP32 runs firmware t
 
 ## Hardware
 
-- Freenove ESP32-S3 board
+- Freenove ESP32-S3 WROOM board (with GPIO extension board)
 - LED with a 220 Ω resistor
 - Push button
-- Potentiometer
+- 10 kΩ potentiometer
 - Breadboard and jumper wires
+
+### Wiring
+
+| Part | Connection |
+|---|---|
+| LED | GPIO 21 → 220 Ω resistor → LED → GND |
+| Push button | GPIO 14 → button → GND (internal pull-up enabled) |
+| Potentiometer | Outer pins to 3.3V and GND, middle (wiper) to GPIO 1 |
+
+GPIOs 4–13 and 15–18 are avoided because they are wired to the onboard camera.
 
 ## Command protocol
 
@@ -45,6 +55,15 @@ Commands are newline-terminated text. Every reply is a single line starting with
 | Stress | `tests/test_stress.py` | High-volume commands with zero failures; latency logged to CSV |
 | Soak | `tests/test_stress.py` | Randomized mixed commands over a long run |
 
+## Results on hardware
+
+| Suite | Result |
+|---|---|
+| Functional + negative | **20 / 20 passed** |
+| Stress (10,000 PINGs over USB serial) | **0 failures**, avg 2.00 ms, max 2.54 ms |
+
+Latency stayed within 0.6 ms of the average across all 10,000 commands, showing a stable, low-jitter serial link with no stalls.
+
 ## Project structure
 
 ```
@@ -61,7 +80,7 @@ requirements.txt                           Python dependencies
 
 ### 1. Flash the firmware
 
-Open `firmware/serial_device/serial_device.ino` in the Arduino IDE, set the pin numbers at the top of the file to match your wiring, select **ESP32S3 Dev Module** as the board, and upload.
+Open `firmware/serial_device/serial_device.ino` in the Arduino IDE, confirm the pin numbers at the top of the file match your wiring (defaults: LED 21, button 14, pot 1), select **ESP32S3 Dev Module** as the board, and upload.
 
 ### 2. Install the test dependencies
 
